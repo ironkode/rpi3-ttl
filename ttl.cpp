@@ -1,7 +1,6 @@
 #include "ttl.h"
 
-namespace PhysCom
-{
+using namespace std;
 
 
 void
@@ -104,4 +103,3 @@ physical_communication::read_uart()
 
     }
 }
-} // End of namespace PhysCom

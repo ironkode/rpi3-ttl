@@ -4,10 +4,12 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    ttl.cpp
+    ttl.cpp \
+    errorrep.cpp
 
 HEADERS += \
-    ttl.h
+    ttl.h \
+    errorrep.h
 
 DISTFILES += \
     README.md
