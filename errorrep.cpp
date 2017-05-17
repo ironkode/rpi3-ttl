@@ -51,12 +51,44 @@ errorrep::read_log()
     string result;
     string currentline;
 
+    uint8_t loopamount = 50; // Holds the amount of lines read, standard 50 lines
+    bool keeplooping = true; // whether or not the loop should continue if strange things are found
+
     if (logfile.is_open())
     {
-        while (getline(logfile, currentline))
+        logfile.seekg(-1, ios_base::end); // Go to one char before the end of the file
+        while ((loopamount > 0) && keeplooping)
         {
-            result << result + currentline << '\n';
+            char currentchar;
+            logfile.get(currentchar); //  get the current char being read
+            if ((int) logfile.tellg() <= 1) // If the current character is at or before the last byte
+            {
+                logfile.seekg(0); // return to beginning of the first line
+                getline(logfile, result); // set the first (so last line in the result) and smash that like button
+                return result;
+            } else if(currenchar == '\n') { // run through file untill new line is detected, then put it into the string
+                getline(logfile, currentline);
+                result.append(currentline);
+                ++loopamount;
+                logfile.seekg(-1, ios_base::current);
+            } else {
+                logfile.seekg(-2, ios_base::current);
+            }
+            return result;
         }
-
     }
+    return; // Maybe add some error reporting idk love
+}
+
+
+const string
+errorrep::currentDateTime()
+{
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+
+    return buf;
 }
