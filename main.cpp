@@ -5,6 +5,6 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    physical
+    //physical
     return 0;
 }

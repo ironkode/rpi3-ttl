@@ -1,11 +1,11 @@
 #ifndef TTL_H
 #define TTL_H
 
-#include <stdio>
 #include <iostream>
-#include <unistd>   // Used for UART
-#include <fcntl>    // Used for UART
-#include <termios>	// Used for UART
+//#include <unistd.h>   // Used for UART
+#include <cstdint>
+//#include <fcntl>    // Used for UART
+//#include <termios>	// Used for UART
 
 
 using namespace std;

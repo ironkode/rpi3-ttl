@@ -34,7 +34,7 @@ errorrep::~errorrep()
 
 
 const bool
-errorrep::write_log(errors fault)
+errorrep::write_log(string fault)
 {
     // Write predefined codes to the logfile
     if (logfile.is_open())
@@ -57,7 +57,7 @@ errorrep::read_log()
     if (logfile.is_open())
     {
         logfile.seekg(-1, ios_base::end); // Go to one char before the end of the file
-        while ((loopamount > 0) && keeplooping)
+        while (loopamount > 0)
         {
             char currentchar;
             logfile.get(currentchar); //  get the current char being read
@@ -72,7 +72,7 @@ errorrep::read_log()
                 ++loopamount;
                 logfile.seekg(-1, ios_base::current);
             } else {
-                logfile.seekg(-2, ios_base::current);
+                logfile.seekg(-2, ios_base::current); // go bit back
             }
             return result;
         }
