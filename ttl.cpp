@@ -1,4 +1,5 @@
 #include "ttl.h"
+#include "errorrep.h"
 
 using namespace std;
 
@@ -6,6 +7,8 @@ using namespace std;
 void
 physical_communication::physical_communication()
 {
+    errorrep errorrep_uart(uart.txt, false); //create new error logging object for uart problems
+
     // Set Up UART0
     // At bootup, pins 8 and 10 are already set to UART0_TXD, UART0_RXD (ie the alt0 function) respectively
 
@@ -31,6 +34,7 @@ physical_communication::physical_communication()
     // Check for errors
     if (uart0_filestream == -1)
     {
+        errorrep_uart.write_log("Unable to open UART connection in constructor")
         // TODO: Implement error reporting for uart errror
     }
 
@@ -75,6 +79,7 @@ physical_communication::write_uart(char const *string)
         return (result == strlen(string)) ? true : false ; //TODO: maybe some more error reporting
     }
     return false;
+    errorrep_uart.write_log("Unable to open filestream during UART Write operation");
      // TODO: Add more error reporting, filestream isn't open
 }
 
@@ -88,12 +93,13 @@ physical_communication::read_uart()
         uint8_t rx_length = read(uart0_filestream, rx_buffer, 255);
         if (rx_length < 0)
         {
-            return -1; // error reporting, also, probably won't work
-            // return -1, an error has occured
+            errorrep_uart.write_log("Strange things are happening in the UART read function");
+            return 0;
         }
         else if (rx_length == 0)
         {
-            return -1; // No data waiting
+            errorrep_uart.write_log("No data to be received in UART read function")
+            return 0;
         }
         else
         {

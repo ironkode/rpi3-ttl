@@ -52,7 +52,6 @@ errorrep::read_log()
     string currentline;
 
     uint8_t loopamount = 50; // Holds the amount of lines read, standard 50 lines
-    bool keeplooping = true; // whether or not the loop should continue if strange things are found
 
     if (logfile.is_open())
     {
@@ -68,8 +67,8 @@ errorrep::read_log()
                 return result;
             } else if(currenchar == '\n') { // run through file untill new line is detected, then put it into the string
                 getline(logfile, currentline);
-                result.append(currentline);
-                ++loopamount;
+                result.append(currentline); // Add read line to the string
+                ++loopamount;   // Increase read line
                 logfile.seekg(-1, ios_base::current);
             } else {
                 logfile.seekg(-2, ios_base::current); // go bit back
